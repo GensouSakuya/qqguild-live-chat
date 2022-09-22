@@ -1,0 +1,68 @@
+{
+  "name": "bilibili-live-chat",
+  "version": "2.3.1",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@aspnet/signalr": "^1.0.27",
+    "@babel/plugin-proposal-nullish-coalescing-operator": "^7.17.12",
+    "@babel/plugin-proposal-optional-chaining": "^7.17.12",
+    "@microsoft/signalr": "^6.0.9",
+    "bilibili-live-ws": "^6.2.0",
+    "core-js": "^3.22.5",
+    "lodash": "^4.17.21",
+    "query-string": "^7.1.1",
+    "uuid": "^8.3.2",
+    "vue": "^3.2.33"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^4.5.17",
+    "@vue/cli-plugin-eslint": "^4.5.17",
+    "@vue/cli-service": "^4.5.17",
+    "@vue/compiler-sfc": "^3.2.33",
+    "babel-eslint": "^10.1.0",
+    "babel-plugin-lodash": "^3.3.4",
+    "eslint": "^7.32.0",
+    "eslint-plugin-vue": "^7.20.0",
+    "lint-staged": "^12.4.1",
+    "prettier": "^2.6.2",
+    "sass": "^1.51.0",
+    "sass-loader": "^10.2.1"
+  },
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
+    ],
+    "parserOptions": {
+      "parser": "babel-eslint"
+    },
+    "rules": {
+      "no-empty": "off",
+      "no-unused-vars": "warn"
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "gitHooks": {
+    "pre-commit": "lint-staged"
+  },
+  "lint-staged": {
+    "*.{js,vue}": [
+      "vue-cli-service lint",
+      "prettier --write",
+      "git add"
+    ]
+  }
+}
