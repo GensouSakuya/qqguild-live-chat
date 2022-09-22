@@ -1,4 +1,4 @@
-本项目魔改自 bilibili-live-chat 项目，通过对接go-cqhttp qq机器人框架，实现将qq频道直播间信息能够以弹幕的方式在OBS里展示出来
+本项目魔改自 [bilibili-live-chat](https://github.com/Tsuk1ko/bilibili-live-chat) 项目，加了个对接go-cqhttp qq机器人框架的后端，实现在obs中像弹幕一样展示qq频道直播间的聊天信息
 
 构建顺序
 1. build前端项目src\qqguildlivechat\web
