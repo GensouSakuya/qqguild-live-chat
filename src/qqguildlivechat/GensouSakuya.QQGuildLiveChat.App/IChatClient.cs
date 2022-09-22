@@ -2,6 +2,6 @@
 {
     public interface IChatClient
     {
-        void SendChatMessage();
+        Task SendChatMessage(GuildMessage msg);
     }
 }

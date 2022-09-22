@@ -6,9 +6,7 @@
 <script>
 import { reactive, onBeforeUnmount, ref } from 'vue';
 import { parseProps } from '@/utils/props';
-import { setCors, autoGet } from '@/utils/request';
-import { setFaceOption } from '@/utils/face';
-import { HubConnectionBuilder, LogLevel } from '@aspnet/signalr'
+import { HubConnectionBuilder, LogLevel } from '@microsoft/signalr'
 
 import Live from '@/components/Live';
 import DanmakuItem from '@/components/DanmakuItem';
@@ -21,38 +19,21 @@ export default {
     onBeforeUnmount(() => window.removeEventListener('hashchange', onHashChange));
 
     const props = reactive(parseProps(window.location.hash));
-    const canCORS = props.cors === 'true';
-    setCors(canCORS);
-    setFaceOption({
-      method: props.face,
-      expireDay: props.faceExpireDay,
-    });
 
     const ready = ref(false);
     const errMsg = ref('');
 
+    const host = window.location.host;
+
     const connection = new HubConnectionBuilder()
-      .withUrl('http://localhost:5202/chathub')
+      .withAutomaticReconnect()
+      .withUrl(`http://${host}/chat?room=${props.room}&guildName=${props.guildName}`)
       .configureLogging(LogLevel.Information)
       .build()
 
     props.connection = connection;
-    connection.start();
-    // 获取房间信息
-    autoGet(`https://api.live.bilibili.com/room_ex/v1/RoomNews/get?roomid=${props.room}`)
-      .then(({ code, msg, data: { roomid, uid } }) => {
-        if (code === 0) {
-          props.room = parseInt(roomid);
-          props.anchor = parseInt(uid);
-          ready.value = true;
-        } else {
-          errMsg.value = msg;
-        }
-      })
-      .catch(() => {
-        errMsg.value = '获取房间信息失败';
-        if (canCORS) errMsg.value += '，请检查是否正确禁用了浏览器的 web security 以允许直接跨域';
-      });
+    props.face = true;
+    ready.value = true;
 
     return { props, ready, errMsg };
   },

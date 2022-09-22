@@ -12,48 +12,26 @@
       ></iframe>
     </div>
     <div class="panel-body">
-      <!-- 直播间号 -->
-      <input-group header="直播间号">
+      <!-- 频道名称 -->
+      <input-group header="频道名称">
         <input
           class="form-control"
-          type="number"
-          min="0"
-          step="1"
-          placeholder="必填，支持短号"
-          v-model.number="form.room"
+          type="text"
+          placeholder="必填"
+          v-model="form.guildName"
+        />
+      </input-group>
+      <!-- 直播间名称 -->
+      <input-group header="直播间名称">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="必填"
+          v-model="form.room"
         />
         <span class="input-group-btn">
-          <button class="btn btn-primary" type="button" :disabled="!form.room" @click="goLive">Go!</button>
+          <button class="btn btn-primary" type="button" :disabled="!form.room || !form.guildName" @click="goLive">Go!</button>
         </span>
-      </input-group>
-      <!-- 直接跨域 -->
-      <input-group header="直接跨域">
-        <select class="form-control" v-model="form.cors">
-          <option v-for="{ value, text } in options.cors" :key="value" :value="value">{{ text }}</option>
-        </select>
-        <template #footer>
-          <a href="https://github.com/Tsuk1ko/bilibili-live-chat#直接跨域" target="_blank">查看说明</a>
-        </template>
-      </input-group>
-      <!-- 显示头像 -->
-      <input-group header="显示头像">
-        <select class="form-control" v-model="form.face">
-          <option v-for="{ value, text } in options.face" :key="value" :value="value">{{ text }}</option>
-        </select>
-        <template #footer>
-          <a href="https://github.com/Tsuk1ko/bilibili-live-chat#显示头像" target="_blank">查看说明</a>
-        </template>
-      </input-group>
-      <!-- 头像缓存 -->
-      <input-group header="头像缓存" footer="天">
-        <input
-          class="form-control"
-          type="number"
-          min="0"
-          step="1"
-          placeholder="选填，头像 URL 缓存的时间，默认为 7 天"
-          v-model.number="form.faceExpireDay"
-        />
       </input-group>
       <!-- 弹幕排列 -->
       <input-group header="弹幕排列">
@@ -117,14 +95,14 @@
         />
       </input-group>
       <!-- 屏蔽用户 -->
-      <input-group header="屏蔽用户" footer="">
+      <!-- <input-group header="屏蔽用户" footer="">
         <input
           class="form-control"
           type="text"
           placeholder="选填，将不显示指定UID用户的弹幕和礼物，用竖杠|分隔"
           v-model="form.blockUID"
         />
-      </input-group>
+      </input-group> -->
     </div>
   </div>
 </template>

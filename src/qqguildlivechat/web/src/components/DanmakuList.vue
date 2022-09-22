@@ -4,7 +4,7 @@
       <danmaku-item
         v-for="i in giftPin"
         :key="i"
-        :show-face="giftShowFace"
+        :show-face="true"
         type="gift"
         uname="某人"
         giftName="礼物"
@@ -37,7 +37,6 @@
 import { ref, toRefs, onBeforeUnmount, nextTick, onMounted, unref } from 'vue';
 import { v4 as uuid } from 'uuid';
 import { propsType } from '@/utils/props';
-import { getFace } from '@/utils/face';
 import loadImg from '@/utils/loadImg';
 import { sampleSize } from 'lodash';
 
@@ -49,8 +48,7 @@ export default {
   components: { DanmakuItem },
   props: {
     ...propsType,
-    isGiftList: Boolean,
-    giftShowFace: Boolean,
+    isGiftList: Boolean
   },
   setup(props) {
     // 运行状态
@@ -103,20 +101,6 @@ export default {
 
     // 添加弹幕
     const addDanmaku = async danmaku => {
-      if (danmaku.showFace) {
-        const loads = await getFace(danmaku.uid);
-        let load;
-        let [face] = loads.find(([src]) => (load = loadedMap.get(src))) || [''];
-        if (!face) {
-          load = loadImg(loads);
-          loadedMap.set(face, load);
-          face = await load;
-          loadedMap.set(face, true);
-        } else if (load !== true) {
-          face = await load;
-        }
-        danmaku.face = face;
-      }
       danmaku.stay = danmaku.stay || (props.display === 'bottom' ? props.stay : 0);
       danmakuQueue.push({
         props: danmaku,

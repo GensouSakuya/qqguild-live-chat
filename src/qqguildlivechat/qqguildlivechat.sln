@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GensouSakuya.QQGuildLiveChat.App", "GensouSakuya.QQGuildLiveChat.Api\GensouSakuya.QQGuildLiveChat.App.csproj", "{477DFA95-BDAA-4EBF-9AB2-96C2B85298BA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GensouSakuya.QQGuildLiveChat.App", "GensouSakuya.QQGuildLiveChat.App\GensouSakuya.QQGuildLiveChat.App.csproj", "{477DFA95-BDAA-4EBF-9AB2-96C2B85298BA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
