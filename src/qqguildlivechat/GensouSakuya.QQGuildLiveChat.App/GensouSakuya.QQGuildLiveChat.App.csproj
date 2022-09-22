@@ -1,0 +1,24 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Content Remove="appsettings.Development.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="GensouSakuya.GoCqhttp.Sdk" Version="0.3.0-dev4" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="6.0.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+	  <Content Include="web\**\*.*" >
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </Content>
+  </ItemGroup>
+
+</Project>
