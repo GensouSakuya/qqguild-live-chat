@@ -1,7 +1,7 @@
 <template>
   <div id="panel" class="panel panel-default">
     <div class="panel-heading">
-      <h2 class="panel-title" style="font-size: 30px; display: inline-block; margin-right: 10px">Bilibili Live Chat</h2>
+      <h2 class="panel-title" style="font-size: 30px; display: inline-block; margin-right: 10px">QQguild Live Chat</h2>
     </div>
     <div class="panel-body">
       <!-- 频道名称 -->
