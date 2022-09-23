@@ -2,14 +2,6 @@
   <div id="panel" class="panel panel-default">
     <div class="panel-heading">
       <h2 class="panel-title" style="font-size: 30px; display: inline-block; margin-right: 10px">Bilibili Live Chat</h2>
-      <iframe
-        src="https://ghbtns.com/github-btn.html?user=Tsuk1ko&amp;repo=bilibili-live-chat&amp;type=star&amp;count=true&amp;size=large"
-        frameborder="0"
-        scrolling="0"
-        width="160px"
-        height="30px"
-        style="vertical-align: bottom"
-      ></iframe>
     </div>
     <div class="panel-body">
       <!-- 频道名称 -->
