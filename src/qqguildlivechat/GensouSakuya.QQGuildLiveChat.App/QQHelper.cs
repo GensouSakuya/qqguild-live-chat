@@ -84,10 +84,27 @@ namespace GensouSakuya.QQGuildLiveChat.App
             }
             else
             {
-                profile = await _session.GetGuildMemberProfile(guildId, userId.ToString());
-                if (profile != null)
+                try
                 {
-                    memoryCache.Set($"{guildId}:{userId}", profile, _memoryCacheEntryOptions);
+                    profile = await _session.GetGuildMemberProfile(guildId, userId.ToString());
+                    if (profile != null)
+                    {
+                        memoryCache.Set($"{guildId}:{userId}", profile, _memoryCacheEntryOptions);
+                    }
+                }
+                catch(Exception ex)
+                {
+                    Console.WriteLine("get profile failed, error:{0}", ex.ToString());
+                    //try get all
+                    var res = await _session.GetGuildMemberList(guildId, null);
+                    if (res?.Members != null)
+                    {
+                        profile = res.Members.FirstOrDefault(p => p.TinyId == userId);
+                        if (profile != null)
+                        {
+                            memoryCache.Set($"{guildId}:{userId}", profile, _memoryCacheEntryOptions);
+                        }
+                    }
                 }
                 return profile;
             }

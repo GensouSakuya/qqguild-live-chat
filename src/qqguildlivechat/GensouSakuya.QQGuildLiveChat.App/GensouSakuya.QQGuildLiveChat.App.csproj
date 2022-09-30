@@ -11,12 +11,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="GensouSakuya.GoCqhttp.Sdk" Version="0.3.0-dev4" />
+    <PackageReference Include="GensouSakuya.GoCqhttp.Sdk" Version="0.3.1-dev2" />
     <PackageReference Include="Microsoft.AspNetCore.SignalR.Common" Version="6.0.9" />
   </ItemGroup>
 
   <ItemGroup>
-	  <Content Include="web\**\*.*" >
+	  <Content Include="web\**\*.*">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	  </Content>
   </ItemGroup>
