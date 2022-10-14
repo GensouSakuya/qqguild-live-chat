@@ -37,6 +37,7 @@ export default {
     };
 
     onMounted(() => {
+      //频道消息
       props.connection.on('SendChatMessage', ({ message, uid, name, isOwner, avatarUrl /*, isVip, isSvip*/}) => {
         const danmaku = {
           type: 'message',
@@ -54,6 +55,40 @@ export default {
       props.connection.onreconnecting(error => {
         addInfoDanmaku(`连接错误，正在重新连接`);
       });
+
+      const giftList = props.giftPin ? giftPinList : danmakuList;
+
+      //SC
+      props.connection.on('SendSuperChatMessage', ({ message, uid, name, isOwner, avatarUrl /*, isVip, isSvip*/}) => {
+        giftList.value.addDanmaku({
+          type: 'sc',
+          showFace: true,
+          face: avatarUrl,
+          uid,
+          uname: name,
+          message,
+        });
+      });
+      window.giftList = giftList;
+
+      // live.on('SUPER_CHAT_MESSAGE', fullData => {
+      //   console.log('SUPER_CHAT_MESSAGE', fullData);
+      //   const {
+      //     data: {
+      //       uid,
+      //       user_info: { uname },
+      //       message,
+      //     },
+      //   } = fullData;
+      //   giftList.value.addDanmaku({
+      //     type: 'sc',
+      //     showFace: props.face !== 'false',
+      //     uid,
+      //     uname,
+      //     message,
+      //   });
+      // });
+      // window.giftList = giftList;
 
       console.log('正在连接直播弹幕服务');
       props.connection.start();

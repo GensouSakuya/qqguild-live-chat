@@ -3,6 +3,7 @@ using GensouSakuya.GoCqhttp.Sdk.Sessions;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Concurrent;
+using System.Text.RegularExpressions;
 
 namespace GensouSakuya.QQGuildLiveChat.App
 {
@@ -39,6 +40,8 @@ namespace GensouSakuya.QQGuildLiveChat.App
             _connectionRoomMap.TryRemove(connectionId, out _);
         }
 
+        private static readonly Regex _scRegex = new Regex(@"\[CQ:redbag,title=(.*)\]");
+
         public async Task SendDanmu(object sender, GoCqhttp.Sdk.Sessions.Models.PostEvents.Message.GuildMessage msg)
         {
             try
@@ -51,17 +54,37 @@ namespace GensouSakuya.QQGuildLiveChat.App
                     var memoryCache = scope.ServiceProvider.GetService<IMemoryCache>();
                     var profile = await GetUserProfile(memoryCache, guildId, userId.ToString());
                     var client = scope.ServiceProvider.GetService<IHubContext<ChatHub, IChatClient>>();
-                    var message = new GuildMessage
+                    var isSc = _scRegex.IsMatch(msg.Message?.ToString() ?? "");
+                    if (isSc)
                     {
-                        AvatarUrl = profile?.AvatarUrl,
-                        IsOwner = false,
-                        Message = msg.Message?.ToString(),
-                        Name = profile?.NickName
-                    };
-                    foreach(var map in _connectionRoomMap)
+                        var groups = _scRegex.Match(msg.Message?.ToString() ?? "").Groups;
+                        var message = new SuperChatMessage
+                        {
+                            AvatarUrl = profile?.AvatarUrl,
+                            IsOwner = false,
+                            Message = groups[groups.Count -1].Value,
+                            Name = profile?.NickName
+                        };
+                        foreach (var map in _connectionRoomMap)
+                        {
+                            if (map.Value.GuildId == guildId && map.Value.ChannelId == channelId)
+                                await client.Clients.Client(map.Key).SendSuperChatMessage(message);
+                        }
+                    }
+                    else
                     {
-                        if (map.Value.GuildId == guildId && map.Value.ChannelId == channelId)
-                            await client.Clients.Client(map.Key).SendChatMessage(message);
+                        var message = new GuildMessage
+                        {
+                            AvatarUrl = profile?.AvatarUrl,
+                            IsOwner = false,
+                            Message = msg.Message?.ToString(),
+                            Name = profile?.NickName
+                        };
+                        foreach (var map in _connectionRoomMap)
+                        {
+                            if (map.Value.GuildId == guildId && map.Value.ChannelId == channelId)
+                                await client.Clients.Client(map.Key).SendChatMessage(message);
+                        }
                     }
                 }
             }

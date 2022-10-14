@@ -7,4 +7,12 @@
         public string Message { get; set; }
         public bool IsOwner { get; set; }
     }
+
+    public class SuperChatMessage
+    {
+        public string AvatarUrl { get; set; }
+        public string Name { get; set; }
+        public string Message { get; set; }
+        public bool IsOwner { get; set; }
+    }
 }

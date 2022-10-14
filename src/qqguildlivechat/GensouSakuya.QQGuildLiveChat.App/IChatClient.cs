@@ -3,5 +3,7 @@
     public interface IChatClient
     {
         Task SendChatMessage(GuildMessage msg);
+
+        Task SendSuperChatMessage(SuperChatMessage msg);
     }
 }
