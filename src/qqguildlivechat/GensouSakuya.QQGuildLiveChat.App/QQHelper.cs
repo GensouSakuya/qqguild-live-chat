@@ -2,6 +2,7 @@
 using GensouSakuya.GoCqhttp.Sdk.Sessions;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using System.Collections.Concurrent;
 using System.Text.RegularExpressions;
 
@@ -55,6 +56,8 @@ namespace GensouSakuya.QQGuildLiveChat.App
                     var profile = await GetUserProfile(memoryCache, guildId, userId.ToString());
                     var client = scope.ServiceProvider.GetService<IHubContext<ChatHub, IChatClient>>();
                     var isSc = _scRegex.IsMatch(msg.Message?.ToString() ?? "");
+                    var msgSender = JsonConvert.DeserializeObject<dynamic>(JsonConvert.SerializeObject(msg.Sender));
+                    var senderName = msgSender?.nickname ?? profile?.NickName;
                     if (isSc)
                     {
                         var groups = _scRegex.Match(msg.Message?.ToString() ?? "").Groups;
@@ -63,7 +66,7 @@ namespace GensouSakuya.QQGuildLiveChat.App
                             AvatarUrl = profile?.AvatarUrl,
                             IsOwner = false,
                             Message = groups[groups.Count -1].Value,
-                            Name = profile?.NickName
+                            Name = senderName
                         };
                         foreach (var map in _connectionRoomMap)
                         {
@@ -78,7 +81,7 @@ namespace GensouSakuya.QQGuildLiveChat.App
                             AvatarUrl = profile?.AvatarUrl,
                             IsOwner = false,
                             Message = msg.Message?.ToString(),
-                            Name = profile?.NickName
+                            Name = senderName
                         };
                         foreach (var map in _connectionRoomMap)
                         {
